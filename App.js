@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   SafeAreaView,
@@ -19,11 +19,14 @@ import {
   Button,
   TouchableHighlight,
   Image,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
-import Accordion from 'react-native-collapsible/Accordion';
+// import Accordion from 'react-native-collapsible/Accordion';
 import {Appbar} from 'react-native-paper';
+import StyledText from 'react-native-styled-text';
+import GlobalFont from 'react-native-global-font';
+import Accordian from './src/components/accordian';
 
 const SECTIONS = [
   {
@@ -31,15 +34,15 @@ const SECTIONS = [
       'Finku telah terdaftar secara resmi dan diawasi oleh pemerintah Indonesia ',
     content: [
       {
-        info: 'Finku terdaftar di bawah KOMINFO yang memiliki SOP & pengaturan keamanan data yang ketat',
+        info: 'Finku terdaftar di bawah <demo>KOMINFO</demo> yang memiliki SOP & pengaturan keamanan data yang ketat',
         image: require('./src/img/1.png'),
       },
       {
-        info: 'Finku sudah secara resmi terdaftar sebagai PT',
+        info: 'Finku sudah <demo>secara resmi terdaftar</demo> sebagai PT',
         image: require('./src/img/2.png'),
       },
       {
-        info: 'Finku dikembangkan oleh tim dari Indonesia yang sudah mempelajari berbagai regulasi terkait keamanan data & privasi',
+        info: 'Finku dikembangkan oleh tim dari Indonesia yang sudah <demo>mempelajari berbagai regulasi</demo> terkait keamanan data & privasi',
         image: require('./src/img/3.png'),
       },
     ],
@@ -48,15 +51,15 @@ const SECTIONS = [
     title: 'Finku sangat serius & berdedikasi dalam menjaga keamanan datamu',
     content: [
       {
-        info: 'Finku memanfaatkan enkripsi canggih 256-AES, sama atau lebih tinggi dari rata-rata bank dan aplikasi Fintech di dunia',
+        info: 'Finku memanfaatkan enkripsi canggih 256-AES, sama atau lebih tinggi dari <demo>rata-rata bank dan aplikasi Fintech di dunia</demo>',
         image: require('./src/img/4.png'),
       },
       {
-        info: 'Finku hanya memiliki akses baca (tidak bisa mengubah dan membuat aktivitas), dan hanya membaca data saldo & transaksimu',
+        info: 'Finku hanya memiliki akses baca (<demo>tidak bisa mengubah dan membuat aktivitas</demo>), dan hanya membaca data saldo & transaksimu',
         image: require('./src/img/5.png'),
       },
       {
-        info: 'Finku memfasilitasi apabila kamu ingin menghapus akunmu, dan datamu akan Finku hapus secara menyeluruh',
+        info: 'Finku memfasilitasi apabila kamu ingin menghapus akunmu, dan <demo>datamu akan Finku hapus secara menyeluruh</demo>',
         image: require('./src/img/6.png'),
       },
     ],
@@ -65,15 +68,15 @@ const SECTIONS = [
     title: 'Ketentuan privasi',
     content: [
       {
-        info: 'Finku tidak pernah dan tidak akan pernah menjual data apapun',
+        info: 'Finku tidak pernah dan <demo>tidak akan pernah menjual data</demo> apapun',
         image: require('./src/img/7.png'),
       },
       {
-        info: 'Finku memantau bagaimana kamu berinteraksi dengan app Finku (contoh: fitur mana yang kamu pakai dan tidak) untuk keperluan evaluasi & meningkatkan kepuasan kamu',
+        info: 'Finku memantau bagaimana kamu berinteraksi dengan app Finku (contoh: fitur mana yang kamu pakai dan tidak) untuk keperluan <demo>evaluasi & meningkatkan kepuasan kamu</demo>',
         image: require('./src/img/8.png'),
       },
       {
-        info: 'Finku tidak pernah dan tidak akan pernah memberikan datamu ke perusahaan manapun tanpa izin kamu',
+        info: 'Finku tidak pernah dan <demo>tidak akan pernah memberikan datamu</demo> ke perusahaan manapun tanpa izin kamu',
         image: require('./src/img/9.png'),
       },
       {
@@ -96,6 +99,11 @@ const App = () => {
     setCurrentItem(index);
   };
 
+  useEffect(() => {
+    let fontName = 'BeVietnam-Medium';
+    GlobalFont.applyGlobal(fontName);
+  }, []);
+
   _renderHeader = section => {
     return (
       <View
@@ -103,7 +111,7 @@ const App = () => {
           marginBottom: 10,
           backgroundColor: '#FFDBAC',
           borderRadius: 6,
-          height: 60,
+          height: 70,
         }}>
         <View
           style={{
@@ -111,20 +119,26 @@ const App = () => {
             flex: 1,
             justifyContent: 'space-between',
             margin: 5,
-            height: 60,
-            width: Dimensions.get('window').width - 42
+            height: 70,
+            width: Dimensions.get('window').width - 42,
           }}>
-          <Text style={{fontSize: 16, margin: 5, fontWeight: '600', width: (Dimensions.get('window').width-42)*0.8}}>
+          <Text
+            style={{
+              fontSize: 16,
+              margin: 5,
+              fontWeight: '600',
+              width: (Dimensions.get('window').width - 42) * 0.8,
+            }}>
             {section.title}
           </Text>
-          <View style={{marginTop: 45/2, marginRight: 10}}>
-          <Image
-            style={{
-              height: 15,
-              width: 15,
-            }}
-            source={require('./src/img/arrow.png')}
-          />
+          <View style={{marginTop: 45 / 2, marginRight: 10}}>
+            <Image
+              style={{
+                height: 15,
+                width: 15,
+              }}
+              source={require('./src/img/arrow.png')}
+            />
           </View>
         </View>
       </View>
@@ -133,13 +147,13 @@ const App = () => {
 
   _renderContent = section => {
     return (
-      <View>
+      <View style={{backgroundColor: '#FFF7F2'}}>
         {section.content.map((val, ky) => {
           return (
             <View
               key={ky}
               style={{
-                margin: 5,
+                // margin: 5,
                 flexDirection: 'row',
                 flex: 1,
               }}>
@@ -153,10 +167,16 @@ const App = () => {
                 />
               </View>
               <View style={{marginLeft: 10}}>
-                <Text
-                  style={{fontSize: 16, fontWeight: '600', color: '#7B7B7B'}}>
+                <StyledText
+                  textStyles={textStyles}
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    color: '#7B7B7B',
+                    width: (Dimensions.get('window').width - 42) * 0.85,
+                  }}>
                   {val.info}
-                </Text>
+                </StyledText>
               </View>
               {/* {val.child ?? (
                  <View>
@@ -206,13 +226,26 @@ const App = () => {
               Sebelum hubungkan akun finansialmu, baca dan pastikan 👇🏻
             </Text>
           </View>
-          <Accordion
+          <View style={{marginBottom: 25}}>
+            <Accordian
+              title={SECTIONS[0].title}
+              content={SECTIONS[0].content}
+            />
+          </View>
+          <View style={{marginBottom: 25}}>
+            <Accordian
+              title={SECTIONS[1].title}
+              content={SECTIONS[1].content}
+            />
+          </View>
+          <Accordian title={SECTIONS[2].title} content={SECTIONS[2].content} />
+          {/* <Accordion
             sections={SECTIONS}
             activeSections={currentItem}
             renderHeader={_renderHeader}
             renderContent={_renderContent}
             onChange={updateItem}
-          />
+          /> */}
         </View>
       </ScrollView>
       <TouchableHighlight
@@ -223,7 +256,7 @@ const App = () => {
           marginLeft: 16,
           marginRight: 16,
           marginTop: 16,
-          marginBottom: 16,
+          marginBottom: 22,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
@@ -250,6 +283,12 @@ const App = () => {
     </View>
   );
 };
+
+const textStyles = StyleSheet.create({
+  demo: {
+    color: '#000000',
+  },
+});
 
 const styles = StyleSheet.create({
   bottomNavbar: {
